@@ -32,5 +32,14 @@
                 android:textStyle="bold"/>
 
         </android.support.v7.widget.Toolbar>
+
+        <WebView
+            android:id="@+id/aboutwebview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="8dp" />
     </LinearLayout>
+
+
 </android.support.constraint.ConstraintLayout>
