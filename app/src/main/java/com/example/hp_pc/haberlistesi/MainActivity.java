@@ -38,11 +38,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar hakkindaToolbar =(Toolbar) findViewById(R.id.toolbarforabout);
-        setSupportActionBar(hakkindaToolbar);
-       // hakkindaToolbar.setTitle("Hakkinda");
-       //
-      // getSupportActionBar().setTitle("Hakkında");
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
