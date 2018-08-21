@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "523288881392",
+    "firebase_url": "https://haberlistesi-5d50a.firebaseio.com",
+    "project_id": "haberlistesi-5d50a",
+    "storage_bucket": "haberlistesi-5d50a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:523288881392:android:d8c0e70ee76d85a4",
+        "android_client_info": {
+          "package_name": "com.example.hp_pc.haberlistesi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "523288881392-1b1vhkdv1ifu4ikbca4rnrjg03q9oteu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hp_pc.haberlistesi",
+            "certificate_hash": "75f955246ec0e269e9e610bece7354ff4da52af6"
+          }
+        },
+        {
+          "client_id": "523288881392-c2su9mi8aahdenji6fccdbfqa2bfgp27.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBj2cjxCpI2Y2g3Jr3MgjKXL5FIrifXKa4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "523288881392-c2su9mi8aahdenji6fccdbfqa2bfgp27.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
