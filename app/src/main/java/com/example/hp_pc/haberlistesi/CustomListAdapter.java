@@ -13,16 +13,18 @@ import android.widget.TextView;
 
 public class CustomListAdapter extends ArrayAdapter<String> {
     private final Activity context;
+    private final String[] newsId;
     private final String[] baslik;
     private final String[] altmetin;
     private final String[] yazar;
     private final Bitmap[] bitmap;
 
-    public CustomListAdapter(Activity context, String[] baslik,String[] altmetin,String[] yazar, Bitmap[] bitmap) {
+    public CustomListAdapter(Activity context,String [] newsId ,String[] baslik,String[] altmetin,String[] yazar, Bitmap[] bitmap) {
         super(context, R.layout.tekhaber, baslik);
-       
+
 
         this.context=context;
+        this.newsId=newsId;
         this.baslik=baslik;
         this.altmetin= altmetin;
         this.yazar=yazar;
@@ -33,11 +35,13 @@ public class CustomListAdapter extends ArrayAdapter<String> {
         LayoutInflater inflater=context.getLayoutInflater();
         View rowView=inflater.inflate(R.layout.tekhaber, null,true);
 
+        TextView newsIdT = (TextView) rowView.findViewById(R.id.newsid);
         TextView baslikT = (TextView) rowView.findViewById(R.id.haberbaslik);
         ImageView imageViewT = (ImageView) rowView.findViewById(R.id.imageView);
         TextView yazarT = (TextView) rowView.findViewById(R.id.yazar);
         TextView altmetinT = (TextView) rowView.findViewById(R.id.haberaltmetin);
 
+        newsIdT.setText(newsId[position]);
         baslikT.setText(baslik[position]);
         imageViewT.setImageBitmap(bitmap[position]);
         altmetinT.setText(altmetin[position]);

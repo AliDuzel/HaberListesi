@@ -161,6 +161,10 @@ public class MainActivity extends AppCompatActivity {
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
+            String ids[] = new String[HaberList.size()];
+            for (int i = 0; i < HaberList.size(); i++) {
+                ids[i] = HaberList.get(i).get("id");
+            }
             String baslik[] = new String[HaberList.size()];
             for (int i = 0; i < HaberList.size(); i++) {
                 baslik[i] = HaberList.get(i).get("baslik");
@@ -177,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
             for (int i = 0; i < ResimList.size(); i++) {
                 Resimler[i] = ResimList.get(i).get("resim");
             }
-            CustomListAdapter adapter1 = new CustomListAdapter(MainActivity.this,baslik,altmetin,yazar,Resimler);
+            CustomListAdapter adapter1 = new CustomListAdapter(MainActivity.this,ids,baslik,altmetin,yazar,Resimler);
             HaberTab.lv.setAdapter(adapter1);
         }
 
