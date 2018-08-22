@@ -32,5 +32,11 @@
                 android:textStyle="bold"/>
 
         </android.support.v7.widget.Toolbar>
+
+        <ListView
+            android:id="@+id/haberlist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
