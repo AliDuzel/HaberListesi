@@ -41,6 +41,7 @@ public class CustomListAdapter extends ArrayAdapter<String> {
         TextView yazarT = (TextView) rowView.findViewById(R.id.yazar);
         TextView altmetinT = (TextView) rowView.findViewById(R.id.haberaltmetin);
 
+
         newsIdT.setText(newsId[position]);
         baslikT.setText(baslik[position]);
         imageViewT.setImageBitmap(bitmap[position]);
