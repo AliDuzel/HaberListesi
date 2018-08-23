@@ -1,7 +1,10 @@
 package com.example.hp_pc.haberlistesi;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.design.widget.TabLayout;
@@ -21,6 +24,8 @@ import java.util.Map;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -40,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private String TAG = MainActivity.class.getSimpleName();
     private DatabaseReference myref = FirebaseDatabase.getInstance().getReference();
 
-
+    private ImageView welc;
     private ProgressDialog pDialog;
 
     private static String url = "http://demo5362749.mockable.io/getAllNews";
@@ -55,8 +60,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        welc = findViewById(R.id.imagehos);
+        SharedPreferences pref =this.getSharedPreferences("HAS_VISISTED_BEFORE", Context.MODE_PRIVATE);
+        boolean hasVisited = pref.getBoolean("HAS_VISISTED_BEFORE", false);
+        if(!hasVisited) {
+            welc.setVisibility(View.VISIBLE);
+            new CountDownTimer(5000,1000){
+                @Override
+                public void onTick(long millisUntilFinished) {
+                }
 
+                @Override
+                public void onFinish() {
+                    welc.setVisibility(View.GONE);
+                }
+            }.start();
 
+            pref.edit().putBoolean("HAS_VISISTED_BEFORE", true).commit();
+        }
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -83,17 +104,11 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(MainActivity.this);
-            pDialog.setMessage("Please wait...");
-            pDialog.setCancelable(false);
-            pDialog.show();
-
         }
 
         @Override
         protected Void doInBackground(Void... arg0) {
             HttpHandler sh = new HttpHandler();
-
 
             String jsonStr = sh.makeServiceCall(url);
 
@@ -106,8 +121,8 @@ public class MainActivity extends AppCompatActivity {
 
                     JSONArray haberler = altobje.getJSONArray("newsList");
 
-
                     for (int i = 0; i < haberler.length(); i++) {
+
                         JSONObject hbr = haberler.getJSONObject(i);
 
                         String id = hbr.getString("id");
@@ -170,8 +185,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
             // Dismiss the progress dialog
-            if (pDialog.isShowing())
-                pDialog.dismiss();
+
 
             String ids[] = new String[HaberList.size()];
             for (int i = 0; i < HaberList.size(); i++) {
