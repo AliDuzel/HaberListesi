@@ -2,6 +2,7 @@ package com.example.hp_pc.haberlistesi;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -15,10 +16,19 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,6 +38,7 @@ import org.json.JSONObject;
 public class MainActivity extends AppCompatActivity {
 
     private String TAG = MainActivity.class.getSimpleName();
+    private DatabaseReference myref = FirebaseDatabase.getInstance().getReference();
 
 
     private ProgressDialog pDialog;
@@ -44,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
 
         // Create the adapter that will return a fragment for each of the three
@@ -164,6 +176,8 @@ public class MainActivity extends AppCompatActivity {
             String ids[] = new String[HaberList.size()];
             for (int i = 0; i < HaberList.size(); i++) {
                 ids[i] = HaberList.get(i).get("id");
+                //myref.child("notread").push().setValue(ids[i]);
+                CheckData(ids[i]);
             }
             String baslik[] = new String[HaberList.size()];
             for (int i = 0; i < HaberList.size(); i++) {
@@ -187,6 +201,52 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void CheckData(final String test){
+        final DatabaseReference tmp = myref.child("notread");
+        tmp.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    if (dataSnapshot.child(test).exists()) {
+
+                        //do ur stuff
+                    } else {
+
+                        final DatabaseReference tmp2 = myref.child("readed");
+                        tmp2.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.child(test).exists())
+                                {
+
+                                }else
+                                {
+                                    Map<String, String> mapdata = new HashMap<String, String>();
+
+                                    mapdata.put(test,"id" + test);
+
+                                    myref.child("notread").child(test).push().setValue(mapdata);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
+
+
+
+                    }
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

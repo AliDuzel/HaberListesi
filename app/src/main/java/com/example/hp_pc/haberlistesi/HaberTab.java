@@ -5,6 +5,7 @@ import java.net.URL;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -21,11 +22,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import android.util.Log;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class HaberTab extends Fragment{
@@ -44,6 +53,7 @@ public class HaberTab extends Fragment{
     private Button geri;
     private Bitmap tmpresim;
     private String[] textviews = new String[4];
+    private DatabaseReference myref = FirebaseDatabase.getInstance().getReference();
 
 
     @Override
@@ -69,7 +79,7 @@ public class HaberTab extends Fragment{
                         baslikTw.setVisibility(View.VISIBLE);
                         toobarText.setText("Haber Detayı");
                         altmetinTw.setVisibility(View.VISIBLE);
-
+                        CheckReadedData(idTxt);
                         detayresim.setVisibility(View.VISIBLE);
                         aciklamaTw.setVisibility(View.VISIBLE);
                         aciklamaTw.setMovementMethod(new ScrollingMovementMethod());
@@ -93,6 +103,37 @@ public class HaberTab extends Fragment{
             }
         });
         return rootView;
+    }
+
+    public void CheckReadedData(final String str1){
+        final DatabaseReference tmp = myref.child("readed").child(str1);
+        tmp.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.child(str1).exists()) {
+
+                    //do ur stuff
+                } else {
+                    //do something
+                    Map<String, String> mapdata = new HashMap<String, String>();
+
+                    mapdata.put(str1,"id" + str1);
+
+                    myref.child("readed").child(str1).push().setValue(mapdata);
+                    myref.child("notread").child(str1).removeValue();
+
+                }
+
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     private class GetNewsDetail extends AsyncTask<Void, Void, Void> {
